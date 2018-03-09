@@ -24,7 +24,9 @@ class BookMark extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                shadowOpacity: 0,
+                borderBottomWidth: .2,
+                borderColor: '#595959'
             },
             headerTitle: (
                 <View style={{
