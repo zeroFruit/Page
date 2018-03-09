@@ -1,0 +1,1 @@
+export { enhance as selectBooksFetchHOC } from './selectBooksFetchHOC';
