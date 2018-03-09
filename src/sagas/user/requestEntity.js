@@ -22,14 +22,15 @@ export const requestData = {
         ready: () => patch(types.SIGN_UP.READY),
         success: () => patch(types.SIGN_UP.SUCCESS),
         fail: () => patch(types.SIGN_UP.FAILURE),
-        api: ud => api.signUpApi(ud)
+        api: ud => api.signUpApi(ud),
+        fetch: ud => saveUserToStorage(ud)
     },
     signin: {
         ready: () => patch(types.SIGN_IN.READY),
         success: () => patch(types.SIGN_IN.SUCCESS),
         fail: () => patch(types.SIGN_IN.FAILURE),
         api: ud => api.signInApi(ud),
-        fetch: ud => saveUserToLocalStorage(ud)
+        fetch: ud => saveUserToStore(ud)
     },
     update: {
         ready: () => patch(types.UPDATE_USER_STATE.READY),
@@ -52,8 +53,10 @@ export const requestEntity = {
     sendMail: fetchEntity.bind(null, requestData.sendMail)
 };
 
-function* saveUserToLocalStorage({ accessToken, email, profile, displayName, id }) {
-    AsyncStorage.setItem('accessToken', accessToken);
+function* saveUserToStorage({ email }) {
+    yield call([AsyncStorage, 'setItem'], 'email', email);
+}
+function* saveUserToStore({ accessToken, email, profile, displayName, id }) {
     yield put({
         type: types.FETCH_ME,
         payload: {

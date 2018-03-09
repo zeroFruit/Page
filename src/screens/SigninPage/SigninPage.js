@@ -7,7 +7,8 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    AsyncStorage
 } from 'react-native';
 import styles from './styles';
 import { RegularText } from '../../components';
@@ -21,15 +22,19 @@ class SigninPage extends PureComponent {
         };
     };
     state = {
-        email: 'a@gmail.com',
-        pw: '11111111',
+        email: '',
+        pw: '',
         errMessage: Map({
             email: '',
             pw: ''
         }),
         err: false
     };
-    componentWillReceiveProps(np) {
+    async componentDidMount() {
+        const email = await AsyncStorage.getItem('email');
+        this.setState({ email });
+    }
+    async componentWillReceiveProps(np) {
         if (np.success) {
             this.props.navigate('main');
         }

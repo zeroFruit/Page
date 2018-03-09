@@ -26,7 +26,6 @@ export function* AsyncUpdate(action) {
 }
 
 export function* AsyncSendMail(action) {
-    console.log('action.payload', action.payload);
     yield call(re.sendMail, action.payload);
 }
 
