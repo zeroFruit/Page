@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { compose } from 'recompose'
 import styles from './styles';
 
@@ -15,7 +14,8 @@ import {
     ProgressBar,
     PanelButton,
     TextHeaderButton,
-    RegularText
+    RegularText,
+    KeyboardAwareScrollView
 } from '../../components';
 import {
     routeHOC,
@@ -23,6 +23,7 @@ import {
     EditBookHOC,
     fetchTagByBidHOC
 } from '../../hocs';
+import { throttle } from "../../utils/FuncUtils";
 
 class EditPost extends PureComponent {
     static navigationOptions = ({ navigation }) => {
@@ -30,7 +31,8 @@ class EditPost extends PureComponent {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -56,7 +58,7 @@ class EditPost extends PureComponent {
             ),
             headerRight: (
                 <TextHeaderButton
-                    onClickLeftText={ params.onPressRight }
+                    onClickLeftText={ throttle(params.onPressRight) }
                     label={"완료"}
                 />
             ),
@@ -73,7 +75,7 @@ class EditPost extends PureComponent {
     componentWillMount() {
         setParamsToNavigation(this.props, {
             onPressRight: this._onCompleteEdit,
-            onPressLeft: this.props.goBack
+            onPressLeft: () => this.props.goBack(1)
         });
     }
 
@@ -110,8 +112,7 @@ class EditPost extends PureComponent {
         } = this.props;
         return (
             <View style={ styles.container }>
-                <KeyboardAwareScrollView
-                    innerRef={ (ref) => { this.scroll = ref; } }>
+                <KeyboardAwareScrollView>
                     <ImagePreview
                         image={ { uri: img_src } } />
                     <TextInputPanel

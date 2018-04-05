@@ -1,25 +1,26 @@
 import React, { PureComponent } from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
 import { View, Alert, Text } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { compose } from 'recompose';
 import styles from './styles';
 import {
     setParamsToNavigation,
 } from '../../Router';
-import __auth from '../../Auth';
-
 import {
     ImagePreview,
     TextInputPanel,
     TextArea,
     ProgressBar,
     TextHeaderButton,
-    RegularText
+    RegularText,
+    KeyboardAwareScrollView
 } from '../../components';
 import {
     routeHOC,
-    AddBookHOC
 } from '../../hocs';
+import {actions, selectors} from "../../ducks/book";
+import { throttle } from "../../utils/FuncUtils";
 
 class NewPostWrite extends PureComponent {
     static navigationOptions = ({ navigation }) => {
@@ -27,7 +28,8 @@ class NewPostWrite extends PureComponent {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -52,14 +54,11 @@ class NewPostWrite extends PureComponent {
                 textAlign: 'center',
             },
             headerLeft: (
-                <TextHeaderButton
-                    onClickLeftText={ params.onPressLeft }
-                    label={"취소"}
-                />
+                <HeaderBackButton onPress={ params.onPressLeft }/>
             ),
             headerRight: (
                 <TextHeaderButton
-                    onClickLeftText={ params.onPressRight }
+                    onClickLeftText={ throttle(params.onPressRight) }
                     label={"다음"}
                 />
             ),
@@ -77,54 +76,55 @@ class NewPostWrite extends PureComponent {
     componentWillMount() {
         setParamsToNavigation(this.props, {
             onPressRight: this._onClickHeaderCompleteButton,
-            onPressLeft: () => this.props.navigation.goBack()
+            onPressLeft: () => this.props.navigation.pop(1)
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.addState.get('success')) {
-            this.props.navigateToNest('tabs', {}, 'MyPage', {});
+    async componentWillReceiveProps(np) {
+        if (np.addState.get('success')) {
+            await np.pop(2);
+            await np.init();
+            console.log('add success!');
         }
     }
 
     render() {
         const {
-            photo,
+            photo = { image: { uri: 'https://dummyimage.com/360x360/000/fff.png'} },
             addState
         } = this.props;
-        if (addState.get('loading')) {
+
+        if (addState.get('loading'))
             return <ProgressBar visible />;
-        } else {
-            return (
-                <View style={ styles.container }>
-                    <KeyboardAwareScrollView
-                        innerRef={ (ref) => { this.scroll = ref; } }>
-                        <ImagePreview
-                            image={ photo.image } />
-                        <TextInputPanel
-                            label="책 제목"
-                            placeholder="책 제목을 입력해주세요."
-                            textValue={ this.state.bookTitle }
-                            handleFocus={ this._handleTextInputFocus }
-                            onChangeText={ this._onChangeBookTitle } />
-                        <TextInputPanel
-                            label="작가 이름"
-                            placeholder="작가 이름을 입력해주세요."
-                            textValue={ this.state.bookAuthor }
-                            handleFocus={ this._handleTextInputFocus }
-                            onChangeText={ this._onChangeBookAuthor } />
-                        <TextArea
-                            label={"어떤 생각이 이 페이지에 머물렀나요?"}
-                            textValue={ this.state.content }
-                            onChangeText={ this._onChangeContent } />
-                    </KeyboardAwareScrollView>
-                </View>
-            );
-        }
+
+        return (
+            <View style={ styles.container }>
+                <KeyboardAwareScrollView>
+                    <ImagePreview
+                        image={ photo.image } />
+                    <TextInputPanel
+                        label="책 제목"
+                        placeholder="책 제목을 입력해주세요."
+                        textValue={ this.state.bookTitle }
+                        handleFocus={ this._handleTextInputFocus }
+                        onChangeText={ this._onChangeBookTitle } />
+                    <TextInputPanel
+                        label="작가 이름"
+                        placeholder="작가의 이름을 입력해주세요"
+                        textValue={ this.state.bookAuthor }
+                        handleFocus={ this._handleTextInputFocus }
+                        onChangeText={ this._onChangeBookAuthor } />
+                    <TextArea
+                        label={"기억하고 싶은 생각을 함께 남기세요."}
+                        textValue={ this.state.content }
+                        onChangeText={ this._onChangeContent } />
+                </KeyboardAwareScrollView>
+            </View>
+        );
     }
 
     _handleTextInputFocus = (reactNode) => {
-        this.scroll.props.scrollToFocusedInput(reactNode);
+        this.scroll.scrollToFocusedInput(reactNode);
     }
 
     _onClickHeaderCompleteButton = async () => {
@@ -155,7 +155,18 @@ class NewPostWrite extends PureComponent {
     _onChangeContent = content => this.setState({ content });
 }
 
-export default compose(
-    routeHOC,
-    AddBookHOC
-)(NewPostWrite);
+const mapStateToProps = state => ({
+    addState: selectors.GetAdd(state)
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    add: actions.AddBook,
+    init: actions.InitAddBookState
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(compose(
+    routeHOC
+)(NewPostWrite));

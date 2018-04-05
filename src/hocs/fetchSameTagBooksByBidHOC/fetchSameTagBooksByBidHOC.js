@@ -20,7 +20,6 @@ export const fetchSameTagBooksByBidHOC = (WrappedComponent) => {
         }
         async componentWillReceiveProps(np) {
             if(np.fetchState.get('success')) {
-                // await this.setState({ page: this.state.page + 1 });
                 await this.props.init();
             }
         }
@@ -35,7 +34,7 @@ export const fetchSameTagBooksByBidHOC = (WrappedComponent) => {
                     { ...this.props }
                     booksInfo={ selectedBooksByTag_ }
                     requestBooksAndUsers={ this._requestBooksAndUsers }
-                    resetBooks={ UnmountFetchedBooksAction } />
+                    resetBooks={ this._resetBooks } />
             );
         }
 
@@ -51,10 +50,14 @@ export const fetchSameTagBooksByBidHOC = (WrappedComponent) => {
 
             if (!loading && !fetchState.get('success')) {
                 if (selectedBooksByTag_.length >= page * nof) {
-                    // console.log('page >>', page);
                     await AsyncFetchBooksAndUsersByBidAction(id, nof, page);
                 }
             }
+        }
+
+        _resetBooks = () => {
+            console.log('reset books by BID');
+            this.props.UnmountFetchedBooksAction();
         }
     }
 

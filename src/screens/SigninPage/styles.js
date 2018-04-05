@@ -13,8 +13,8 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     logo: {
-        width: 80,
-        height: 36.8
+        width: 96,
+        height: 39.3
     },
     body: {
         marginTop: 29.3,
@@ -27,8 +27,9 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 14.8,
-        borderWidth: br.$light,
+        borderWidth: 0.8,
         borderColor: c.$borderColor,
+        marginTop: 3,
         marginBottom: 7.3
     },
     darkbtn: {
@@ -43,7 +44,7 @@ export default StyleSheet.create({
         marginBottom: 7.3
     },
     textInput: {
-        borderBottomWidth: .3,
+        borderBottomWidth: .8,
         borderColor: c.$borderColor,
         marginBottom: 12.8,
         width: 188.3,

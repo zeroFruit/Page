@@ -1,12 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import {
+    View,
+    Text
+} from 'react-native';
 import { compose } from 'recompose';
 import styles from './styles';
 import ScreenWithSearchBarHeader from '../../components/ScreenWithSearchBarHeader';
 import {
     IconButton,
     SearchBar,
-    SearchList
+    SearchList,
+    RegularText,
+    LightText
 } from '../../components';
 import {
     routeHOC,
@@ -24,7 +29,8 @@ class SearchPage extends ScreenWithSearchBarHeader {
     }
     render() {
         const {
-            searchText
+            searchText,
+            isFocused
         } = this.state;
         const {
             searchResults_
@@ -45,16 +51,25 @@ class SearchPage extends ScreenWithSearchBarHeader {
                         onBlurSearchbar={ this._handleBlur } />
                 </View>
                 <View style={ styles.body }>
-                    <SearchList
-                        searchResults={ searchResults_ }
-                        onClickSearchListItem={ this._onClickSearchListItem } />
+                    {
+                        (searchResults_.length === 0 && isFocused) ?
+                            (
+                                <EmptyResultView />
+                            ) :
+                            (
+                                <SearchList
+                                    searchResults={ searchResults_ }
+                                    onClickSearchListItem={ this._onClickSearchListItem } />
+                            )
+                    }
+
                 </View>
             </View>
         );
     }
 
     _handlePress = () => {
-        this.props.navigation.goBack();
+        this.props.navigation.pop(1);
     }
 
     _onChangeSearchText = (searchText) => {
@@ -72,6 +87,16 @@ class SearchPage extends ScreenWithSearchBarHeader {
         this.setState({ isFocused: false });
     }
 }
+
+const EmptyResultView = () => (
+    <View style={ styles.emptyResultContainer }>
+        <LightText>
+            <Text style={styles.emptyResultText}>
+                {'검색 결과가 없습니다.\r\n가장 먼저 당신의 생각이 담긴 페이지를 기록해보세요.'}
+            </Text>
+        </LightText>
+    </View>
+)
 
 export default compose(
     routeHOC,

@@ -6,7 +6,10 @@ import { SCREEN_WIDTH } from '../../config';
 
 class CameraComponent extends PureComponent {
     render() {
-        const { photoTakenUri } = this.props;
+        const {
+            photoTakenUri,
+            onCameraReady
+        } = this.props;
         if (photoTakenUri) {
             return (
                 <Image style={ styles.preview } source={ { uri: photoTakenUri } } />
@@ -14,6 +17,7 @@ class CameraComponent extends PureComponent {
         } else {
             return (
                 <RNCamera
+                    onCameraReady={onCameraReady}
                     style={ styles.preview }
                     ratio={"1:1"}
                     ref={ cam => this.props.setCameraRef(cam) } />

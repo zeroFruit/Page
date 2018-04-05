@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import {bindActionCreators} from "redux";
 import { compose } from 'recompose';
 import {
     Text,
     View,
     Alert,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    AsyncStorage
 } from 'react-native';
-import __auth from '../../Auth';
 import {
     RegularText
 } from '../../components';
@@ -15,56 +17,56 @@ import {
     routeHOC
 } from "../../hocs";
 import styles from './styles';
+import {actions, selectors} from "../../ducks/user";
+import SplashScreen from "react-native-splash-screen";
 
-class Splash extends Component {
+class Splash extends PureComponent {
     static navigationOptions = {
         header: null
     };
     state = {
-        uid: ''
+        uid: '',
     };
+    // async componentWillMount() {
+    //     // await AsyncStorage.removeItem('accessToken');
+    // }
+    // async componentDidMount() {
+    //     const accessToken = await AsyncStorage.getItem('accessToken');
+    //     if(accessToken) {
+    //         await this.props.signin({
+    //             accessToken
+    //         });
+    //     } else {
+    //         await SplashScreen.hide();
+    //     }
+    // }
+    // async componentWillReceiveProps(np) {
+    //     if(np.signinState.get('success')) {
+    //         await np.replace('main');
+    //         await SplashScreen.hide();
+    //     }
+    // }
     render() {
-        const { navigate } = this.props;
         return (
             <View style={ styles.container }>
                 <Image
                     style={ styles.logo }
-                    source={ require('./images/logo.png') }
+                    source={ require('./images/beta_logo.png') }
                 />
                 <View style={ styles.body }>
                     <Button
                         style={ styles.darkbtn }
                         label={"회원가입"}
-                        onPress={ navigate.bind(this, 'signup') }
+                        onPress={ this.props.navigate.bind(this, 'signup') }
                     />
                     <Button
                         style={ styles.btn }
                         label={"로그인"}
-                        onPress={ navigate.bind(this, 'signin') }
+                        onPress={ this.props.navigate.bind(this, 'signin') }
                     />
                 </View>
             </View>
         );
-    }
-
-    _onClickLoginBtn = async () => {
-        const { uid } = this.state;
-        const { navigate } = this.props;
-        if (__auth.isValidUid(parseInt(uid))) {
-            await this._authenticate(uid);
-            navigate('main');
-        } else {
-            Alert.alert('부적합한 uid입니다.');
-        }
-    }
-
-    _onChangeText = (uid) => {
-        this.setState({ uid });
-    }
-
-    _authenticate = async (uid) => {
-        await this.props.AsyncFetchMyInfoRequestAction(uid);
-        __auth.setId(uid);
     }
 }
 
@@ -81,4 +83,16 @@ const Button = ({ label, style, onPress }) => (
     </TouchableOpacity>
 );
 
-export default compose(routeHOC)(Splash);
+const mapStateToProps = state => ({
+    signinState: selectors.GetSignin(state)
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    signin: actions.signin,
+    init: actions.initSigninState
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(compose(routeHOC)(Splash));

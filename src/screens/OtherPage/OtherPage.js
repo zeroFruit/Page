@@ -25,7 +25,8 @@ class OtherPage extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -57,7 +58,7 @@ class OtherPage extends ScreenWithSearchBarHeader {
         } = this.props;
         setParamsToNavigation(this.props, {
             onClickSearchIcon: this._onClickSearchIcon,
-            onClickBack: () => navigation.goBack(),
+            onClickBack: () => navigation.pop(1),
             user
         });
     }
@@ -87,6 +88,7 @@ class OtherPage extends ScreenWithSearchBarHeader {
         this.props.navigate('Post', {
             id,
             user: user.id,
+            fetchTagType: 'BY_BID',
             vm: new ViewManager(_v._getTagTitleProps)
         });
     }

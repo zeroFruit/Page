@@ -3,20 +3,21 @@ import validator from 'validator';
 import { compose } from 'recompose';
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
     TextInputForm,
     HeaderBackButton,
     TextArea,
     CheckboxForm,
     PanelButton,
-    RegularText
+    RegularText,
+    KeyboardAwareScrollView
 } from '../../components';
 import styles from './styles';
 import {
     SignupHOC,
     routeHOC
 } from "../../hocs";
+import { throttle } from "../../utils/FuncUtils";
 
 class SignupPage extends PureComponent {
     static navigationOptions = ({ navigation }) => {
@@ -25,7 +26,8 @@ class SignupPage extends PureComponent {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -68,8 +70,8 @@ class SignupPage extends PureComponent {
     };
     componentWillReceiveProps(np) {
         if(np.success) {
-            this.props.navigate('signin');
-            this.props.init();
+            np.replace('signin');
+            np.init();
         }
     }
     render() {
@@ -87,12 +89,11 @@ class SignupPage extends PureComponent {
         } = this.props;
         return (
             <View style={ styles.container }>
-                <KeyboardAwareScrollView
-                    innerRef={ (ref) => { this.scroll = ref; } }>
+                <KeyboardAwareScrollView>
                     <TextInputForm
                         label="별명"
-                        placeholder="10자 이내"
-                        handleFocus={ this._handleTextInputFocus }
+                        placeholder="영어, 10자 이내 "
+                        // handleFocus={ this._handleTextInputFocus }
                         onChangeText={ this._onUnameChange }
                         textValue={ uname }
                         errMessage={
@@ -103,30 +104,31 @@ class SignupPage extends PureComponent {
                     />
                     <TextArea
                         label={"소개"}
-                        placeholder={"당신은 어떤 책을 읽는 사람인가요?"}
-                        handleFocus={ this._handleTextInputFocus }
+                        placeholder={"어떤 책을 좋아하세요? 당신을 소개해주세요."}
+                        // handleFocus={ this._handleTextInputFocus }
                         onChangeText={ this._onProfileChange }
                         textValue={ profile }
                     />
                     <TextInputForm
                         label="이메일"
                         placeholder="abcde@xyz.com"
-                        handleFocus={ this._handleTextInputFocus }
+                        // handleFocus={ this._handleTextInputFocus }
                         onChangeText={ this._onEmailChange }
                         textValue={ email }
                         errMessage={
                             err ?
-                                '같은 이메일이 존재합니다.\n\n본인의 이메일을 정확히 입력해주세요.\n비밀번호 재발급과 중요 공지사항 전달시 활용됩니다.' :
+                                '중복된 이메일이 존재합니다.\n\n' :
                                 this.state.err ?
-                                    `${errMessage.get('email')}\n\n본인의 이메일을 정확히 입력해주세요.\n비밀번호 재발급과 중요 공지사항 전달시 활용됩니다.` :
-                                    `본인의 이메일을 정확히 입력해주세요.\n비밀번호 재발급과 중요 공지사항 전달시 활용됩니다.`
+                                    `${errMessage.get('email')}` :
+                                    ``
                         }
+                        infoMessage={'본인의 이메일을 정확히 입력해주세요.\n비밀번호 재발급과 중요 공지사항 전달시 활용됩니다.'}
                     />
                     <TextInputForm
                         secureTextEntry
                         label="비밀번호"
-                        placeholder="특수문자 포함 8~10자리"
-                        handleFocus={ this._handleTextInputFocus }
+                        placeholder="8자-10자로 입력하세요"
+                        // handleFocus={ this._handleTextInputFocus }
                         onChangeText={ this._onPwChange }
                         textValue={ pw }
                         errMessage={
@@ -139,7 +141,7 @@ class SignupPage extends PureComponent {
                         secureTextEntry
                         label="비밀번호 확인"
                         placeholder=""
-                        handleFocus={ this._handleTextInputFocus }
+                        // handleFocus={ this._handleTextInputFocus }
                         onChangeText={ this._onRpwChange }
                         textValue={ rpw }
                         errMessage={
@@ -163,15 +165,12 @@ class SignupPage extends PureComponent {
                 <View>
                     <PanelButton
                         label={"회원가입"}
-                        onPress={ this._submitSignupForm }
+                        onPress={ throttle(this._submitSignupForm) }
                     />
                 </View>
 
             </View>
         );
-    }
-    _handleTextInputFocus = (reactNode) => {
-        this.scroll.props.scrollToFocusedInput(reactNode);
     }
     _onUnameChange = uname => this.setState({ uname });
     _onProfileChange = profile => this.setState({ profile });

@@ -24,13 +24,7 @@ class PostTitle extends Component {
                     </View>
                 );
             case postTitleType.TAG:
-                return (
-                    <View style={ styles.tagTypeContainer }>
-                        { this._renderTagButtons(text) }
-                    </View>
-                );
-            default:
-                return logger.warn('types are not defined');
+                return null;
         }
     }
 

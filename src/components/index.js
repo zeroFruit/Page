@@ -48,6 +48,8 @@ export * from './TextHeaderButton';
 export * from './RankingTable';
 export * from './RankingRow';
 export * from './LightText';
+export * from './PostPageHeader';
+export * from './KeyboardAwareScrollView';
 
 export {
     BookmarkBookGallery,

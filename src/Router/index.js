@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet } from 'react-native';
+import {
+    View,
+    StyleSheet
+} from 'react-native';
 import {
     TabNavigator,
     StackNavigator,
@@ -20,7 +23,6 @@ import NewPostWrite from '../screens/NewPostWrite/container';
 import { NewsFeed } from '../screens/NewsFeed';
 import { PostSelected } from '../screens/PostSelected';
 import { PostSelectedList } from '../screens/PostSelectedList';
-import AuthorPage from '../screens/AuthorPage';
 import { OtherPage } from '../screens/OtherPage';
 import SearchPage from '../screens/SearchPage';
 import EditPost from '../screens/EditPost/EditPost';
@@ -28,8 +30,10 @@ import {Settings} from '../screens/Settings';
 import {SignupPage} from '../screens/SignupPage';
 import {SigninPage} from '../screens/SigninPage';
 import { Ranking } from "../screens/Ranking";
+import { BookmarkSelected } from '../screens/BookmarkSelected';
+import { Intro } from '../screens/Intro';
 
-import CustomTabBar from '../components/TabBar';
+import TabBar from '../components/TabBar';
 import {ModalContentOther} from '../components/ModalContentOther';
 
 import { hasPath } from '../utils/ObjectUtils';
@@ -38,6 +42,9 @@ import history from '../history';
 class RouterComponent extends PureComponent {
     render() {
         const RootNavigator = StackNavigator({
+            intro: {
+                screen: Intro
+            },
             splash: {
                 screen: Splash
             },
@@ -124,8 +131,8 @@ export const CustomTabConfig = TabRouter({
     Post: {
         screen: mapNavigateParamsToProps(PostSelected)
     },
-    Author: {
-        screen: mapNavigateParamsToProps(AuthorPage)
+    BookmarkPost: {
+        screen: mapNavigateParamsToProps(BookmarkSelected)
     },
     Other: {
         screen: mapNavigateParamsToProps(OtherPage)
@@ -142,7 +149,7 @@ const CustomTabView = ({ router, navigation }) => {
                     ...navigation,
                     state: routes[index]
                 }) } />
-            <CustomTabBar navigation={ navigation } />
+            <TabBar navigation={ navigation } />
         </View>
 
     );
@@ -162,8 +169,8 @@ const CustomTabNavigator = createNavigator(CustomTabConfig)(CustomTabView);
   Helper functions
 */
 export const navigateTo = (props, to, params = {}) => {
-    const { state } = props.navigation;
-    history.push(state);
+    // const { state } = props.navigation;
+    // history.push(state);
     props.navigation.navigate(to, params);
 };
 
@@ -181,29 +188,49 @@ export const navigateToNested = (props, to, params, nestedScreenKey, nestedScree
     props.navigation.dispatch(navigateAction);
 };
 
-export const getParamsFromNavigationState = (state) => {
-    if (hasPath(state, 'index')) {
-        const { index, routes } = state;
-
-        return getParamsFromNavigationState(routes[index]);
-    } else {
-        return hasPath(state, 'params') ? state.params : null;
-    }
+export const replace = (navigation, routeName, params = {}) => {
+    navigation.replace(routeName, params);
 };
 
-export const renderHeaderWithNavigation = (navigation) => {
-    const params = getParamsFromNavigationState(navigation.state);
-    return (renderHeaderMethod) => {
-        return renderHeaderMethod(params);
-    };
-};
+// export const resetToMyPage = (navigation) => {
+//     const resetAction = NavigationActions.reset({
+//         index: 0,
+//         key: null,
+//         actions: [
+//             NavigationActions.navigate({
+//                 routeName: 'main',
+//                 action: NavigationActions.navigate({
+//                     routeName: 'tabs'
+//                 })
+//             })
+//         ]
+//     });
+//     navigation.dispatch(resetAction);
+// }
+
+// export const getParamsFromNavigationState = (state) => {
+//     if (hasPath(state, 'index')) {
+//         const { index, routes } = state;
+//
+//         return getParamsFromNavigationState(routes[index]);
+//     } else {
+//         return hasPath(state, 'params') ? state.params : null;
+//     }
+// };
+
+// export const renderHeaderWithNavigation = (navigation) => {
+//     const params = getParamsFromNavigationState(navigation.state);
+//     return (renderHeaderMethod) => {
+//         return renderHeaderMethod(params);
+//     };
+// };
 
 export const setParamsToNavigation = (props, params) => {
     props.navigation.setParams({ ...params });
 };
 
-export const initParamsToNavigation = (props) => {
-    props.navigation.setParams({});
-};
+// export const initParamsToNavigation = (props) => {
+//     props.navigation.setParams({});
+// };
 
 

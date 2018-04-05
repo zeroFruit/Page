@@ -31,7 +31,7 @@ const RankingRow = ({ rank, tit, athr, title, author, bmcnt, onPress = () => {} 
                     <View style={ styles.cardfooter }>
                         <View>
                             <RegularText>
-                                <Text>{ author }</Text>
+                                <Text style={styles.author}>{ author }</Text>
                             </RegularText>
                         </View>
                         <View>

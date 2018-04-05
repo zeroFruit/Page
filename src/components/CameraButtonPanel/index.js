@@ -4,20 +4,20 @@ import styles from './styles';
 import { IconButton } from '../index';
 
 class CameraButtonPanel extends PureComponent {
-  render() {
-    return (
-      <View style={ styles.container }>
-        <IconButton
-          source={ require('./image/camera_button.png') }
-          iconStyle={ styles.button }
-          onPress={ this._onPress } />
-      </View>
-    );
-  }
-
-  _onPress = () => {
-    this.props.onPressButton();
-  }
+    render() {
+        const {
+            source,
+            onPressButton
+        } = this.props;
+        return (
+        <View style={ styles.container }>
+            <IconButton
+                source={ source }
+                iconStyle={ styles.button }
+                onPress={ onPressButton } />
+        </View>
+        );
+    }
 }
 
 

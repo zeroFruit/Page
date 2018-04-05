@@ -19,11 +19,15 @@ export const fetchTagByTidHOC = (WrappedComponent) => {
             if(np.fetchState.get('success'))
                 await this.props.init();
         }
+        componentWillUnmount() {
+            console.log('fetchTagByTidHOC unmount');
+        }
         render() {
             const {
                 fetchState
             } = this.props;
             if(fetchState.get('loading')) return <ProgressBar visible />;
+            console.log('fetch tag by tid');
             return (
                 <WrappedComponent
                     { ...this.props }

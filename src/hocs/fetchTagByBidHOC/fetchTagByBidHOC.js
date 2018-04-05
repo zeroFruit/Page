@@ -13,6 +13,7 @@ export const fetchTagByBidHOC = (WrappedComponent) => {
         static navigationOptions = WrappedComponent.navigationOptions;
         async componentDidMount() {
             const { id } = this.props;
+            console.log('fetchTagByBidHOC!!');
             await this.props.AsyncFetchTagRequestAction(id);
         }
         async componentWillReceiveProps(np) {
@@ -20,12 +21,18 @@ export const fetchTagByBidHOC = (WrappedComponent) => {
                 await this.props.init();
             }
         }
+        componentWillUnmount() {
+            console.log('fetchTagByBidHOC unmount')
+        }
         render() {
             const {
                 fetchState,
-                tit, athr
+                tit,
+                athr
             } = this.props;
-            // if (fetchState.get('loading')) return <ProgressBar visible />;
+
+            if (fetchState.get('loading')) return <ProgressBar visible />;
+            console.log('fetch tag by bid');
             return (
                 <WrappedComponent
                     { ...this.props }

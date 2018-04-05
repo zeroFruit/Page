@@ -1,1 +1,1 @@
-export { default as PostSelectedList } from './PostSelectedList';
+export { default as PostSelectedList } from './container';

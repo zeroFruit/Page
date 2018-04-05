@@ -10,30 +10,32 @@ import { ProgressBar } from '../index';
 
 class ModalContentOther extends PureComponent {
     state = {
-        report: false
+        report: false,
+        sendSuccess: false
     };
     async componentWillReceiveProps(np) {
         if(np.sendMailState.get("success")) {
             await this.props.initSendMailState();
-            await this.props.hideModal();
+            await this.setState({ sendSuccess: true });
         }
 
     }
     render() {
         const {
-            report
+            report,
+            sendSuccess
         } = this.state;
         const {
             sendMailState
         } = this.props;
-
         return (
             <View style={ styles.container }>
                 {
                     sendMailState.get('loading') ? <ProgressBar visible /> : null
                 }
                 {
-                    !report ? this._renderReport() : this._renderReportReason()
+                    !report ? this._renderReport() :
+                        (!sendSuccess ? this._renderReportReason() : this._renderSendSuccessWindow())
                 }
             </View>
         );
@@ -112,6 +114,20 @@ class ModalContentOther extends PureComponent {
                 </View>
             </TouchableOpacity>
         ));
+    }
+
+    _renderSendSuccessWindow = () => {
+        return (
+            <TouchableOpacity
+                onPress={() => this.props.hideModal()}
+            >
+                <View style={styles.sendSuccessMenu}>
+                    <RegularText>
+                        <Text style={styles.sendSuccessMsg}>{`신고가 접수되었습니다.\n확인 후 조치하겠습니다. 감사합니다.`}</Text>
+                    </RegularText>
+                </View>
+            </TouchableOpacity>
+        );
     }
 
     _onPressSendMail = async reason => {

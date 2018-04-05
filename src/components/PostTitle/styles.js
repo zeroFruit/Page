@@ -13,9 +13,8 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: c.$white,
-        borderTopWidth: br.$default,
-        borderBottomWidth: br.$default,
-        borderBottomColor: c.$borderLightColor,
+        borderTopWidth: .4,
+        borderBottomWidth: .4,
         paddingLeft: 5.5
     },
     textTypeContainer: {
@@ -23,9 +22,9 @@ export default StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 24.3,
         backgroundColor: c.$white,
-        borderTopWidth: br.$default,
-        borderBottomWidth: br.$default,
-        borderBottomColor: c.$borderLightColor
+        borderTopWidth: .4,
+        borderBottomWidth: .4,
+        borderColor: '#cccccc'
     },
     title: {
         fontSize: fs.$medium,

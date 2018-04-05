@@ -112,6 +112,7 @@ const signup = {
 
 const signin = {
     [types.SIGN_IN.INIT]: (state, action) => {
+        console.log('init!');
         return ({
             ...state,
             signin: initialState.signin
@@ -122,18 +123,22 @@ const signin = {
             ...state,
             signin: state.signin
                 .set('loading', true)
+                .set('err', false)
+                .set('success', false)
         })
     },
     [types.SIGN_IN.SUCCESS]: (state, action) => {
+        console.log('success!');
         return ({
             ...state,
             signin: state.signin
                 .set('success', true)
                 .set('err', false)
-                .set('loading', true)
+                .set('loading', false)
         })
     },
     [types.SIGN_IN.FAILURE]: (state, action) => {
+        console.log('fail!!');
         return ({
             ...state,
             signin: state.signin

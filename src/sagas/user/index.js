@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { types } from '../../ducks/user';
 import { requestEntity as re } from './requestEntity';
+import { hasPath } from "../../utils/ObjectUtils";
 
 export function* AsyncFetchMyInfoRequest(action) {
     const result = yield call(re.me, action.payload);
@@ -18,7 +19,13 @@ export function* AsyncSignup(action) {
 }
 
 export function* AsyncSignin(action) {
-    yield call(re.signin, action.payload);
+    const { pw, accessToken } = action.payload;
+    if(pw) {
+        yield call(re.signin, action.payload);
+    }
+    if(accessToken) {
+        yield call(re.signinWithToken, action.payload);
+    }
 }
 
 export function* AsyncUpdate(action) {

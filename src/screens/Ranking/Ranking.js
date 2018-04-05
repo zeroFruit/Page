@@ -3,17 +3,18 @@ import {
     View,
     Text
 } from 'react-native';
+import {bindActionCreators} from "redux";
+import {connect} from 'react-redux';
 import { compose } from 'recompose';
 import {
-    navigateTo,
     setParamsToNavigation
 } from '../../Router';
 import {
     ScreenWithSearchBarHeader,
-    LogoHeaderTitle,
     SearchHeaderButton,
     PostAddingPanel,
-    RankingTable
+    RankingTable,
+    ProgressBar
 } from '../../components';
 import {
     routeHOC,
@@ -22,6 +23,7 @@ import {
 import styles from './styles';
 import ViewManager, * as _v from "../../ViewManager";
 import RegularText from "../../components/RegularText";
+import {actions, selectors} from "../../ducks/book";
 
 class Ranking extends ScreenWithSearchBarHeader {
     static navigationOptions = ({ navigation }) => {
@@ -29,10 +31,12 @@ class Ranking extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
-                <View style={{
+                <View
+                    style={{
                     flexGrow: 1,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -58,33 +62,54 @@ class Ranking extends ScreenWithSearchBarHeader {
             onClickSearchIcon: this._onClickSearchIcon
         });
     }
+    async componentDidMount() {
+        await this.props.fetch();
+    }
+    async componentWillReceiveProps(np) {
+        if(np.fetchState.get('success')) {
+            await this.props.init();
+        }
+    }
     render() {
-        const { rank } = this.props;
+        const {
+            fetchState
+        } = this.props;
+        // if(fetchState.get('loading')) return <ProgressBar visible />;
         return (
             <View style={ styles.container }>
                 <PostAddingPanel
                     onClickAddPost={ this._onClickAddPost } />
                 <RankingTable
-                    rank={ rank }
+                    rank={ fetchState.get('payload') }
                     onPressRankingRow={ this._onPressRankingRow }
                 />
             </View>
         );
     }
     _onPressRankingRow = (tit, athr) => {
-        const params = {
+        this.props.navigate('PostList', {
             athrid: athr,
             titid: tit,
+            fetchTagType: 'BY_TID',
+            fetchBooksType: 'BY_TID',
             vm: new ViewManager(_v._getTextTitleProps)
-        };
-        this.props.navigate('PostList', params);
+        });
     }
     _onClickAddPost = () => {
         this.props.navigate('NewPost');
     }
 }
 
-export default compose(
-    routeHOC,
-    fetchRankHOC
-)(Ranking);
+const mapStateToProps = state => ({
+    fetchState: selectors.GetRank(state)
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    init: actions.InitRank,
+    fetch: actions.Rank
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(compose(routeHOC)(Ranking));

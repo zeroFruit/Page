@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import history from '../../history';
 import {
     navigateTo,
-    navigateToNested
+    navigateToNested,
+    replace,
+    resetToMyPage
 } from '../../Router';
 
 
@@ -17,6 +19,8 @@ export const routeHOC = WrappedComponent =>
                     navigate={ this._navigate }
                     navigateToNest={ this._navigateToNest }
                     goBack={ this._goBack }
+                    replace={this._replace}
+                    pop={this._pop}
                 />
             );
         }
@@ -29,6 +33,13 @@ export const routeHOC = WrappedComponent =>
             navigateToNested(this.props, parentKey, parentParams, childKey, childParams);
         }
 
+        _replace = (routeName, params = {}) => {
+            replace(this.props.navigation, routeName, params);
+        }
+
+        _pop = (n) => {
+            this.props.navigation.pop(n);
+        }
         _goBack = () => {
             const { key, params } = history.pop();
             navigateTo(this.props, key, params);

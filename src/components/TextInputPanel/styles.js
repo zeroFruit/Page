@@ -33,11 +33,8 @@ export default StyleSheet.create({
     paddingBottom: 5
   },
   textInput: {
-    fontSize: fs.$default,
+    fontSize: 12.5,
     paddingTop: 0,
     paddingBottom: 0,
-    textAlignVertical: 'center',
-    textAlign: 'left',
-    fontFamily: 'NotoSansCJKkr-DemiLight'
   }
 });

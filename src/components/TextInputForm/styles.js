@@ -9,8 +9,8 @@ import {
 export default StyleSheet.create({
     container: {
         minHeight: 45,
-        borderTopWidth: br.$default,
-        borderBottomWidth: br.$default,
+        borderTopWidth: 0.4,
+        borderBottomWidth: 0.4,
         borderColor: c.$borderColor__dark,
         backgroundColor: 'white'
     },
@@ -40,13 +40,19 @@ export default StyleSheet.create({
         paddingBottom: 0,
         textAlignVertical: 'center',
         textAlign: 'left',
-        fontFamily: 'NotoSansCJKkr-DemiLight'
     },
     errContainer: {
+        paddingLeft: 19
+    },
+    infoContainer: {
         paddingLeft: 19
     },
     errText: {
         fontSize: fs.$small,
         color: fc.$red
+    },
+    infoText: {
+        fontSize: fs.$small,
+        color: '#b0b0b0'
     }
 });

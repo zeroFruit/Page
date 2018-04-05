@@ -2,6 +2,8 @@ import { Map } from 'immutable';
 import validator from 'validator';
 import { compose } from 'recompose';
 import React, { PureComponent } from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
 import {
     View,
     Text,
@@ -11,8 +13,13 @@ import {
     AsyncStorage
 } from 'react-native';
 import styles from './styles';
-import { RegularText } from '../../components';
-import { SigninHOC, routeHOC } from "../../hocs";
+import {
+    RegularText, ProgressBar } from '../../components';
+import {
+    routeHOC
+} from "../../hocs";
+import {actions, selectors} from "../../ducks/user";
+import { throttle } from "../../utils/FuncUtils";
 
 class SigninPage extends PureComponent {
     static navigationOptions = ({ navigation }) => {
@@ -22,6 +29,7 @@ class SigninPage extends PureComponent {
         };
     };
     state = {
+        signedin: false,
         email: '',
         pw: '',
         errMessage: Map({
@@ -30,28 +38,25 @@ class SigninPage extends PureComponent {
         }),
         err: false
     };
-    async componentDidMount() {
-        const email = await AsyncStorage.getItem('email');
-        this.setState({ email });
-    }
     async componentWillReceiveProps(np) {
-        if (np.success) {
-            this.props.navigate('main');
+        if(await np.signinState.get('success')) {
+            await np.replace('main');
         }
     }
     render() {
         const {
-           email,
-           pw
+            email,
+            pw,
         } = this.state;
         const {
-            err
+            signinState
         } = this.props;
+        if(signinState.get('loading')) return <ProgressBar visible />;
         return (
             <View style={ styles.container }>
                 <Image
                     style={ styles.logo }
-                    source={ require('./images/logo.png') }
+                    source={ require('./images/beta_logo.png') }
                 />
                 <View style={ styles.body }>
                     <SigninTextInput
@@ -68,11 +73,11 @@ class SigninPage extends PureComponent {
                     <Button
                         style={ styles.btn }
                         label={"로그인"}
-                        onPress={ this._submitSigninForm }
+                        onPress={ throttle(this._submitSigninForm) }
                     />
                 </View>
                 {
-                    err ? (
+                    signinState.get('err') ? (
                         <View>
                             <RegularText>
                                 <Text style={ styles.errText }>이메일 또는 비밀번호가 정확하지 않습니다.</Text>
@@ -88,10 +93,11 @@ class SigninPage extends PureComponent {
     _onPwChange = pw => this.setState({ pw });
     _submitSigninForm = async () => {
         const isValid = await this._validate();
+        const { email, pw } = this.state;
         if(isValid) {
             await this.props.signin({
-                email: this.state.email,
-                pw: this.state.pw
+                email,
+                pw
             });
         }
     }
@@ -164,8 +170,16 @@ const SigninTextInput = ({
     </View>
 
 );
+const mapStateToProps = state => ({
+    signinState: selectors.GetSignin(state)
+});
 
-export default compose(
-    routeHOC,
-    SigninHOC
-)(SigninPage);
+const mapDispatchToProps = dispatch => bindActionCreators({
+    signin: actions.signin,
+    init: actions.initSigninState
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(compose(routeHOC)(SigninPage));

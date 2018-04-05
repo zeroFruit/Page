@@ -9,7 +9,7 @@ import {
 export default StyleSheet.create({
     container: {
         flexDirection: 'row',
-        borderWidth: br.$light,
+        borderWidth: 0.8,
         borderColor: c.$borderColor__dark,
         backgroundColor: c.$grayColor,
         justifyContent: 'center',

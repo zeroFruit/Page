@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'recompose';
 import { View, Text } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
     TextInputForm,
     TextHeaderButton,
     ProgressBar,
     TextArea,
-    RegularText
+    RegularText,
+    KeyboardAwareScrollView
 } from '../../components';
 import { updateUserStateHOC, routeHOC } from "../../hocs";
 
@@ -17,7 +17,8 @@ class Settings extends PureComponent {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -92,8 +93,7 @@ class Settings extends PureComponent {
                         <ProgressBar visible /> :
                         null
                 }
-                <KeyboardAwareScrollView
-                    innerRef={ (ref) => { this.scroll = ref; } }>
+                <KeyboardAwareScrollView>
                     <TextInputForm
                         label="별명"
                         placeholder="책 제목을 입력해주세요."

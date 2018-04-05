@@ -5,14 +5,13 @@ import ViewManager, * as _v from '../../ViewManager';
 export default class ScreenWithSearchBarHeader extends PureComponent {
 
     _onClickSearchListItem = (athrid, titid) => {
-        const key = 'PostList';
-        const vm = new ViewManager(_v._getTextTitleProps);
-        const params = {
+        navigateTo(this.props, 'PostList', {
             athrid,
             titid,
-            vm
-        };
-        navigateTo(this.props, key, params);
+            vm: new ViewManager(_v._getTextTitleProps),
+            fetchTagType: 'BY_TID',
+            fetchBooksType: 'BY_TID',
+        });
     }
 
     _onClickSearchIcon = () => {

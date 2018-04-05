@@ -51,8 +51,11 @@ export function* fetchBooksAndUsersByTagApi(athrid, titid, nof, page) {
 }
 
 export function* fetchBooksAndUsersByAuthorTagApi(bid, nof, page) {
+    console.log('bid', bid);
     const result = yield call(agent.Book.__fetchByAuthorTag, bid, nof, page);
+    console.log('result', result);
     const { books } = MapperBooksAndUsers(result);
+    console.log('books', books);
     yield all([
         put({
             type: bookTypes._FETCH_BOOKS_BY_ATHR_TAG,

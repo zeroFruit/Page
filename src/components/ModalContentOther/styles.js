@@ -26,5 +26,16 @@ export default StyleSheet.create({
     menuText: {
         fontSize: 16.3,
         color: '#363636'
+    },
+    sendSuccessMenu: {
+        marginTop: 34,
+        marginBottom: 32.5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    sendSuccessMsg: {
+        fontSize: 16.3,
+        color: '#363636',
+        textAlign: 'center'
     }
 });

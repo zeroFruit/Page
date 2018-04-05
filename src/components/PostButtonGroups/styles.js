@@ -12,6 +12,9 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         height: 45,
+        borderBottomColor: c.$borderLightColor,
+        borderTopWidth: .5,
+        borderBottomWidth: .5,
         backgroundColor: c.$white,
     },
     buttons: {

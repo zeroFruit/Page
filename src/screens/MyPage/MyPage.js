@@ -27,8 +27,7 @@ class MyPage extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0,
-                borderWidth: 0.2,
+                borderWidth: 0.8,
                 borderColor: '#595959'
             },
             headerTitle: (
@@ -110,6 +109,7 @@ class MyPage extends ScreenWithSearchBarHeader {
         this.props.navigate('Post', {
             id,
             user: user.id,
+            fetchTagType: 'BY_BID',
             vm: new ViewManager(_v._getTagTitleProps)
         });
     }

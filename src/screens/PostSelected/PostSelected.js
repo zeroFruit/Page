@@ -8,7 +8,8 @@ import {
     SearchHeaderButton,
     HeaderBackButton,
     RegularText,
-    ModalContentOther
+    ModalContentOther,
+    PostPageHeader
 } from '../../components';
 
 import { enhance as selectTagFetchHOC } from '../../hocs/selectTagFetchHOC';
@@ -30,7 +31,8 @@ class PostSelected extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0,
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -64,7 +66,7 @@ class PostSelected extends ScreenWithSearchBarHeader {
         } = this.props;
         setParamsToNavigation(this.props, {
             onClickSearchIcon: this._onClickSearchIcon,
-            onClickBack: () => navigation.goBack('Post'),
+            onClickBack: () => navigation.pop(1),
             user
         });
     }
@@ -80,18 +82,26 @@ class PostSelected extends ScreenWithSearchBarHeader {
         } = this.props;
         return (
             <ScrollView>
-                <Post
-                    bmcnt={ bookInfo.bmcnt }
-                    onClickMore={ this._onClickMore }
-                    vm={ vm }
-                    bookInfo={ bookInfo }
-                    userInfo={ bookInfo.user }
-                    tit={ tit }
-                    athr={ athr }
-                    isMyBook={ this._isMyBook(id, myBooks_) }
-                    isBookmarked={ this._isMyBookmark(id, myBookmarks_) }
-                    onClickAuthorTagOfPostTitle={ this._onClickAuthorTagOfPostTitle }
-                    onClickNicknameTextOfPostTitle={ this._onClickNicknameTextOfPostTitle } />
+                <View>
+                    <PostPageHeader
+                        seeMore
+                        tit={tit}
+                        athr={athr}
+                        onPress={this._onClickAuthorTag}
+                    />
+                    <Post
+                        bmcnt={ bookInfo.bmcnt }
+                        onClickMore={ this._onClickMore }
+                        vm={ vm }
+                        bookInfo={ bookInfo }
+                        userInfo={ bookInfo.user }
+                        tit={ tit }
+                        athr={ athr }
+                        isMyBook={ this._isMyBook(id, myBooks_) }
+                        isBookmarked={ this._isMyBookmark(id, myBookmarks_) }
+                        onClickAuthorTagOfPostTitle={ this._onClickAuthorTag }
+                        onClickNicknameTextOfPostTitle={ this._onClickNicknameTextOfPostTitle } />
+                </View>
             </ScrollView>
         );
     }
@@ -104,10 +114,12 @@ class PostSelected extends ScreenWithSearchBarHeader {
         return books.filter(b => b.id === id).length !== 0;
     }
 
-    _onClickAuthorTagOfPostTitle = tagId => {
-        const { id, user, navigate } = this.props;
+    _onClickAuthorTag = tagId => {
+        const { id, navigate } = this.props;
         navigate('PostList', {
             id,
+            fetchTagType: 'BY_BID',
+            fetchBooksType: 'BY_BID',
             vm: new ViewManager(_v._getTextTitleProps)
         });
     }

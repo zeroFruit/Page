@@ -35,7 +35,7 @@ export const fetchSameTagBooksByTidHOC = (WrappedComponent) => {
                     { ...this.props }
                     booksInfo={ selectedBooksByTag_ }
                     requestBooksAndUsers={ this._requestBooksAndUsers }
-                    resetBooks={ UnmountFetchedBooks } />
+                    resetBooks={ this._resetBooks } />
             );
         }
 
@@ -57,6 +57,11 @@ export const fetchSameTagBooksByTidHOC = (WrappedComponent) => {
                     await AsyncFetchBooksByTag(athrid, titid, nof, page);
                 }
             }
+        }
+
+        _resetBooks = () => {
+            console.log('reset books by TID');
+            this.props.UnmountFetchedBooks();
         }
     }
 

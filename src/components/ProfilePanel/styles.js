@@ -12,7 +12,8 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: c.$white,
-        borderWidth: br.$default,
+        borderTopWidth: .8,
+        borderBottomWidth: .8,
         borderColor: c.$borderLightColor,
         minHeight: 100
     },

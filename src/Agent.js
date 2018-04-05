@@ -2,8 +2,8 @@ import axios from 'axios';
 import qs from 'qs';
 import RNFetchBlob from 'react-native-fetch-blob';
 
-export const LOCAL_SERVER = __DEV__ ? 'https://0fd1cc3f.ngrok.io' : 'https://page-rest.xyz';
-export const IMG_SERVER = __DEV__ ? 'https://eec27b82.ngrok.io' : 'https://page-asset.xyz';
+export const LOCAL_SERVER = __DEV__ ? 'https://288c3fec.ngrok.io' : 'https://page-rest.xyz';
+export const IMG_SERVER = __DEV__ ? 'https://47d543e5.ngrok.io' : 'https://page-asset.xyz';
 
 const getResponse = ({ data, status }) => ({ data, status });
 
@@ -65,6 +65,7 @@ const Book = {
                 bid
             }
         });
+        console.log('data', data);
         return data;
     },
     __fetchByBookId: async (bid) => {
@@ -164,6 +165,10 @@ const User = {
                 data: {}
             };
         }
+    },
+    __signinWithToken: async ud => {
+        const res = await requests.post(LOCAL_SERVER, '/signin/token', ud);
+        return res;
     },
     __update: async ud => {
         try {

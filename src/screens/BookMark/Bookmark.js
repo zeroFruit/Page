@@ -16,7 +16,10 @@ import {
 } from '../../Router';
 import ViewManager, * as _v from '../../ViewManager';
 import ScreenWithSearchBarHeader from "../../components/ScreenWithSearchBarHeader";
-import { fetchBookmarksHOC } from "../../hocs";
+import {
+    fetchBookmarksHOC,
+    routeHOC,
+} from "../../hocs";
 
 class BookMark extends ScreenWithSearchBarHeader {
     static navigationOptions = ({ navigation }) => {
@@ -25,7 +28,7 @@ class BookMark extends ScreenWithSearchBarHeader {
             headerStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
-                borderBottomWidth: .2,
+                borderWidth: 0.8,
                 borderColor: '#595959'
             },
             headerTitle: (
@@ -40,7 +43,7 @@ class BookMark extends ScreenWithSearchBarHeader {
                             textAlign: 'center',
                             color: '#363636',
                             fontWeight: '500'
-                        }}>담아 둔 글</Text>
+                        }}>담아 둔 페이지</Text>
                     </RegularText>
                 </View>
             ),
@@ -76,16 +79,14 @@ class BookMark extends ScreenWithSearchBarHeader {
     }
 
     _onClickGalleryCard = (id, user) => {
-        const key = 'Post';
-        const vm = new ViewManager(_v._getTagTitleProps);
-        const params = {
-            vm,
+        this.props.navigate('BookmarkPost', {
             id,
-            user
-        };
-        navigateTo(this.props, key, params);
+            user,
+            vm: new ViewManager(_v._getTextTitleProps),
+            fetchTagType: 'BY_BID',
+        });
     }
 
 }
 
-export default compose(fetchBookmarksHOC)(BookMark);
+export default compose(fetchBookmarksHOC, routeHOC)(BookMark);

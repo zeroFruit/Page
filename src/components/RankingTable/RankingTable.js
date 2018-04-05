@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    ScrollView
 } from 'react-native';
 import {
     RankingRow,
@@ -16,16 +17,16 @@ class RankingTable extends PureComponent {
             onPressRankingRow
         } = this.props;
         return (
-            <View style={ styles.container }>
+            <ScrollView style={ styles.container }>
                 <View style={ styles.header }>
                     <RegularText>
-                        <Text style={ styles.title }>가장 많은 사람들이 담아 둔 책 TOP5</Text>
+                        <Text style={ styles.title }>담아뒀다 꺼내보면 좋을, 다섯 권의 책</Text>
                     </RegularText>
                 </View>
                 <View style={ styles.body }>
                     { this._renderRow(rank.toJS(), onPressRankingRow) }
                 </View>
-            </View>
+            </ScrollView>
         );
     }
     _renderRow = (data, onPress) => {

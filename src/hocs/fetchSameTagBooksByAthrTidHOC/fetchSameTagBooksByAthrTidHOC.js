@@ -39,7 +39,7 @@ export const fetchSameTagBooksByAthrTidHOC = (WrappedComponent) => {
 
         _requestBooksAndUsers = async () => {
             const {
-                id,
+                bidForAuthorTag,
                 selectedBooksByAuthorTag_,
                 AsyncFetchBooksByAuthorTag,
                 loading,
@@ -51,7 +51,7 @@ export const fetchSameTagBooksByAthrTidHOC = (WrappedComponent) => {
             } = this.state;
             if (!loading && !fetchState.get('success')) {
                 if (selectedBooksByAuthorTag_.length >= page * nof) {
-                    await AsyncFetchBooksByAuthorTag(id, nof, page);
+                    await AsyncFetchBooksByAuthorTag(bidForAuthorTag, nof, page);
                 }
             }
         }
@@ -67,9 +67,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    AsyncFetchBooksByAuthorTag: (id, numOfFeeds, page) => ({
+    AsyncFetchBooksByAuthorTag: (bidForAuthorTag, numOfFeeds, page) => ({
         type: types.FETCH_BOOKS_AND_USERS_BY_AUTHOR_TAG.REQUEST,
-        payload: { id, numOfFeeds, page }
+        payload: { bidForAuthorTag, numOfFeeds, page }
     }),
     init: () => ({
         type: types.FETCH_BOOKS_AND_USERS_BY_AUTHOR_TAG.INIT

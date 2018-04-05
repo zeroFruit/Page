@@ -44,6 +44,7 @@ const fetchTagByBid = {
             .set('loading', true)
     }),
     [types.FETCH_TAG_BY_BID.SUCCESS]: (state, action) => {
+        console.log('FETCH_TAG_BY_BID', action.payload);
         return ({
             ...state,
             loading: false,

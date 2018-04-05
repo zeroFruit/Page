@@ -11,6 +11,7 @@ class TextInputForm extends PureComponent {
             textValue = '',
             onChangeText = () => {},
             errMessage = '',
+            infoMessage = '',
             secureTextEntry = false,
             editable = true
         } = this.props;
@@ -33,13 +34,29 @@ class TextInputForm extends PureComponent {
                             style={ styles.textInput } />
                     </View>
                 </View>
-                <View style={ styles.errContainer }>
-                    <RegularText>
-                        <Text style={ styles.errText }>
-                            { errMessage }
-                        </Text>
-                    </RegularText>
-                </View>
+                {
+                    errMessage !== '' ? (
+                        <View style={ styles.errContainer }>
+                            <RegularText>
+                                <Text style={ styles.errText }>
+                                    { errMessage }
+                                </Text>
+                            </RegularText>
+                        </View>
+                    ) : null
+                }
+                {
+                    infoMessage !== '' ? (
+                        <View style={ styles.infoContainer }>
+                            <RegularText>
+                                <Text style={ styles.infoText }>
+                                    { infoMessage }
+                                </Text>
+                            </RegularText>
+                        </View>
+                    ) : null
+                }
+
             </View>
 
         );

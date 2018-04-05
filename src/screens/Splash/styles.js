@@ -13,11 +13,11 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     logo: {
-        width: 80,
-        height: 36.8
+        width: 94.8,
+        height: 38.8
     },
     body: {
-        marginTop: 29.3
+        marginTop: 30
     },
     btn: {
         width: 150,
@@ -26,7 +26,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 14.8,
-        borderWidth: br.$light,
+        borderWidth: 0.8,
         borderColor: c.$borderColor,
         marginBottom: 7.3
     },
@@ -37,7 +37,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: c.$grayColor,
         borderRadius: 14.8,
-        borderWidth: br.$light,
+        borderWidth: 0.8,
         borderColor: c.$borderColor,
         marginBottom: 7.3
     }

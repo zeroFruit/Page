@@ -11,19 +11,15 @@ export const enhance = WrappedComponent => compose(
         'navigationOptions',
         WrappedComponent.navigationOptions
     ),
-    selectBooksFetchHOC(props => isFetchedByAuthor(props))(props => isFetchedFromSearchList(props)),
+    selectBooksFetchHOC(props => isFetchBooksByBid(props)),
 )(WrappedComponent);
 
-const selectBooksFetchHOC = isFetchByAuthorTag => isFetchedFromSearchList => branch(
-    isFetchByAuthorTag,
+const selectBooksFetchHOC = isFetchBooksByBid => branch(
+    isFetchBooksByBid,
     fetchSameTagBooksByBidHOC,
-    branch(
-        isFetchedFromSearchList,
-        fetchSameTagBooksByTidHOC,
-        fetchSameTagBooksByAthrTidHOC
-    )
+    fetchSameTagBooksByTidHOC
 );
 
-const isFetchedByAuthor = props => hasPath(props, 'id');
-
-const isFetchedFromSearchList = props => hasPath(props, 'athrid') && hasPath(props, 'titid');
+const isFetchBooksByBid = props => {
+    return hasPath(props, 'fetchBooksType') && props.fetchBooksType === 'BY_BID';
+}

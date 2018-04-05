@@ -36,7 +36,7 @@ export default StyleSheet.create({
     titleContainer: {
     },
     title: {
-        fontSize: fs.$title,
+        fontSize: 17.5,
         color: fc.$title,
         fontWeight: "700"
     },
@@ -45,7 +45,13 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: -20
     },
+    author: {
+        fontSize: 11.3,
+        color: '#b0b0b0'
+    },
     bmcnt: {
+        fontSize: 11.3,
+        color: '#474747',
         fontWeight: "900"
     }
 });

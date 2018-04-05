@@ -1,5 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import {
+    View,
+    Text,
+} from 'react-native';
 import { compose } from 'recompose';
 import { PostList } from '../../components';
 import ScreenWithSearchBarHeader from '../../components/ScreenWithSearchBarHeader';
@@ -15,7 +18,9 @@ import {
     HeaderBackButton,
     SearchHeaderButton,
     TagHeader,
-    ModalContentOther
+    ModalContentOther,
+    PostPageHeader,
+    RegularText,
 } from '../../components';
 import {
     setParamsToNavigation,
@@ -28,43 +33,50 @@ class PostSelectedList extends ScreenWithSearchBarHeader {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderBottomWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
-                <TagHeader
-                    tit={ params.tit }
-                    athr={ params.athr}
-                    onPress={ () => {} }
-                />
+                <View
+                    style={{
+                        flexGrow: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                    <RegularText>
+                        <Text style={{
+                            fontSize: 18.8,
+                            textAlign: 'center',
+                            color: '#363636',
+                            fontWeight: '700'
+                        }}>PAGE</Text>
+                    </RegularText>
+                </View>
             ),
-            headerTitleStyle: {
-                alignSelf: 'center',
-                textAlign: 'center',
-            },
             headerLeft: (<HeaderBackButton onPress={ params.onClickBack } />),
             headerRight: (<View />)
-            // headerRight: (<SearchHeaderButton onPress={ params.onClickSearchIcon }/>)
         }
     }
     async componentDidMount() {
         const {
             navigation,
             requestBooksAndUsers,
-            tit,
-            athr,
         } = this.props;
         setParamsToNavigation(this.props, {
             onClickAuthorTagOfHeader: this._onClickAuthorTagOfHeader,
             onClickSearchIcon: this._onClickSearchIcon,
-            onClickBack: () => navigation.goBack(),
-            tit,
-            athr
+            onClickBack: () => navigation.pop(1),
         });
         await requestBooksAndUsers();
     }
-    componentWillUnmount() {
-        this.props.resetBooks();
-        this.props.resetTag();
+    async componentWillReceiveProps(np) {
+        if(np.fetchState.get('success')) {
+            await this.props.init();
+        }
+    }
+    async componentWillUnmount() {
+        await this.props.resetBooks();
+        await this.props.resetTag();
     }
     render() {
         const {
@@ -72,10 +84,16 @@ class PostSelectedList extends ScreenWithSearchBarHeader {
             booksInfo,
             myBookmarks_,
             showModal,
-            hideModal
+            hideModal,
+            tit,
+            athr
         } = this.props;
         return (
             <View style={ { flex: 1 } }>
+                <PostPageHeader
+                    tit={tit}
+                    athr={athr}
+                />
                 <PostList
                     onClickMore={ this._onClickMore }
                     showModal={ showModal }
@@ -116,5 +134,5 @@ export default compose(
     fetchBookmarksHOC,
     selectBooksFetchHOC,
     mapSelectedPostFirstHOC,
-    selectTagFetchHOC
+    selectTagFetchHOC,
 )(PostSelectedList);

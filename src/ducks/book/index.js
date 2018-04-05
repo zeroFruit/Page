@@ -140,10 +140,13 @@ const fetchBooksByTag = {
 };
 
 const unfetchBooksByTag = {
-    [types.FETCH_BOOKS_BY_TAG_UNMOUNT]: (state, action) => ({
-        ...state,
-        selectedBooks_: List()
-    })
+    [types.FETCH_BOOKS_BY_TAG_UNMOUNT]: (state, action) => {
+        console.log('ducks unmount selectedBooks');
+        return ({
+            ...state,
+            selectedBooks_: List()
+        })
+    }
 };
 
 const fetchBooksByAuthorTag = {
@@ -199,12 +202,10 @@ const fetchBooksByUser = {
 
 const add = {
     [types.ADD_BOOK.INIT]: (state, action) => {
+        console.log('init!!');
         return {
             ...state,
-            add: state.add
-                .set('success', false)
-                .set('err', false)
-                .set('loading', false)
+            add: initialState.add
         };
     },
     [types.ADD_BOOK.READY]: (state, action) => {

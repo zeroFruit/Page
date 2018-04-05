@@ -17,4 +17,6 @@ const selectTagFetchHOC = shouldFetchByTid => branch(
   fetchTagByBidHOC
 );
 
-const shouldFetchByTid = props => hasPath(props, 'athrid') && hasPath(props, 'titid');
+const shouldFetchByTid = props => {
+    return hasPath(props, 'fetchTagType') && props.fetchTagType === 'BY_TID';
+}

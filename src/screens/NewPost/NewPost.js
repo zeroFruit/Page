@@ -24,6 +24,7 @@ import {
     TextHeaderButton,
     RegularText
 } from '../../components';
+import ProgressBar from "../../components/ProgressBar";
 
 const screenTypes = {
     PICTURE: 'screenType/picture',
@@ -35,7 +36,8 @@ class NewPost extends PureComponent {
         return {
             headerStyle: {
                 elevation: 0,
-                shadowOpacity: 0
+                borderWidth: 0.8,
+                borderColor: '#595959',
             },
             headerTitle: (
                 <View style={{
@@ -77,18 +79,26 @@ class NewPost extends PureComponent {
     state = {
         screenType: screenTypes.PICTURE,
         selectedPhoto: {},
-        photoTaken: {}
+        photoTaken: {},
+        isPhotoTaken: false,
+        isCameraReady: false,
+        isCameraWorkComplete: true
     };
 
     componentWillMount() {
         setParamsToNavigation(this.props, {
             onPressRight: this._onClickHeaderNextButton,
-            onPressLeft: () => this.props.navigation.goBack()
+            onPressLeft: () => this.props.navigation.pop(1)
         });
     }
     render() {
+        const { isCameraReady } = this.state;
         return (
             <View style={ styles.container }>
+                {
+
+                    !isCameraReady ? <ProgressBar visible /> : null
+                }
                 <View style={ styles.body }>
                     {
                         this._renderComponent(this.state.screenType)
@@ -106,13 +116,26 @@ class NewPost extends PureComponent {
     _renderComponent = (screenType) => {
         switch(screenType) {
             case screenTypes.PICTURE:
+                const {
+                    isPhotoTaken,
+                    isCameraWorkComplete
+                } = this.state;
                 return (
                     <View style={ styles.cameraContainer }>
+                        {
+                            !isCameraWorkComplete ? <ProgressBar visible /> : null
+                        }
                         <CameraComponent
+                            onCameraReady={() => this.setState({ isCameraReady: true })}
                             photoTakenUri={ this.state.photoTaken.uri || null }
                             setCameraRef={ this._setCameraRef } />
                         <CameraButtonPanel
-                            onPressButton={ this._takePicture } />
+                            source={
+                                !isPhotoTaken ?
+                                    require('./image/camera_button.png') :
+                                    require('./image/camera_again_button.png')
+                            }
+                            onPressButton={ !isPhotoTaken ? this._takePicture : this._resetPicture } />
                     </View>
                 );
             case screenTypes.LIBRARY:
@@ -132,21 +155,28 @@ class NewPost extends PureComponent {
     _setCameraRef = (camera) => {
         this.camera = camera;
     }
-
+    _resetPicture = () => {
+        this.setState({
+            isPhotoTaken: false,
+            photoTaken: {}
+        });
+    }
     _takePicture = async () => {
         if (this.camera) {
-            try {
-                const options = {
-                    quality: 0.5
-                };
-                const photo = await this.camera.takePictureAsync(options);
-                // console.log('photo', photo);
-                await this._setStatePhotoTaken(photo);
-                await CameraRoll.saveToCameraRoll(photo.uri);
-                await Vibration.vibrate();
-            } catch (e) {
-                logger.log(e, 'Take picture failed');
-            }
+            await this.setState({ isCameraWorkComplete: false });
+            const photo = await this.camera.takePictureAsync({
+                quality: 0.5,
+                fixOrientation: false,
+                exif: false
+            });
+            // console.log('photo', photo);
+            await this.setState({
+                isPhotoTaken : true,
+                photoTaken: photo
+            });
+            await CameraRoll.saveToCameraRoll(photo.uri);
+            await Vibration.vibrate();
+            await this.setState({ isCameraWorkComplete: true });
         }
     }
 
@@ -159,12 +189,7 @@ class NewPost extends PureComponent {
     }
 
     _setStateSelectedPhoto = (selectedPhoto) => {
-        // console.log('selectedPhoto', selectedPhoto);
         this.setState({ selectedPhoto });
-    }
-
-    _setStatePhotoTaken = photoTaken => {
-        this.setState({ photoTaken });
     }
 
     _onClickThumbnail = (item) => {
@@ -190,6 +215,12 @@ class NewPost extends PureComponent {
         } else {
             navigateTo(this.props, 'NewPostWrite', { photo: selectedPhoto });
         }
+        // reset photo taken state
+        this.setState({
+            selectedPhoto: {},
+            photoTaken: {},
+            isPhotoTaken: false
+        });
     }
 }
 
