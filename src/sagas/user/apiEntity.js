@@ -21,7 +21,6 @@ export function* signUpApi(ud) {
     const { status } = yield call(agent.User.__signup, ud);
     if (status !== 200)
         throw new Error("같은 이메일의 회원이 존재합니다.");
-    console.log('signUpApi success');
     return ud;
 }
 

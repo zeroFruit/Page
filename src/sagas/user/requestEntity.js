@@ -23,7 +23,6 @@ export const requestData = {
         success: ud => patch(types.SIGN_UP.SUCCESS, ud),
         fail: () => patch(types.SIGN_UP.FAILURE),
         api: ud => api.signUpApi(ud),
-        fetch: ud => saveUserToStore(ud)
     },
     signin: {
         ready: () => patch(types.SIGN_IN.READY),
