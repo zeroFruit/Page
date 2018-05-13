@@ -10,6 +10,9 @@ export default StyleSheet.create({
     container: {
         flex: 1
     },
+    body: {
+        flex: 1,
+    },
     header: {
         alignItems: 'stretch',
         backgroundColor: 'white'

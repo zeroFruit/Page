@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    Text
+    Text,
+    ScrollView,
 } from 'react-native';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
@@ -14,6 +15,7 @@ import {
     SearchHeaderButton,
     PostAddingPanel,
     RankingTable,
+    RecentBookList,
     ProgressBar
 } from '../../components';
 import {
@@ -25,7 +27,7 @@ import ViewManager, * as _v from "../../ViewManager";
 import RegularText from "../../components/RegularText";
 import {actions, selectors} from "../../ducks/book";
 
-class Ranking extends ScreenWithSearchBarHeader {
+class Main extends ScreenWithSearchBarHeader {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
         return {
@@ -74,15 +76,21 @@ class Ranking extends ScreenWithSearchBarHeader {
         const {
             fetchState
         } = this.props;
-        // if(fetchState.get('loading')) return <ProgressBar visible />;
         return (
             <View style={ styles.container }>
                 <PostAddingPanel
                     onClickAddPost={ this._onClickAddPost } />
-                <RankingTable
-                    rank={ fetchState.get('payload') }
-                    onPressRankingRow={ this._onPressRankingRow }
-                />
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={styles.body}
+                >
+                    <RecentBookList />
+                    <RankingTable
+                        rank={ fetchState.get('payload') }
+                        onPressRankingRow={ this._onPressRankingRow }
+                    />
+                </ScrollView>
+
             </View>
         );
     }
@@ -112,4 +120,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(compose(routeHOC)(Ranking));
+)(compose(routeHOC)(Main));

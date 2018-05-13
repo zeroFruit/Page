@@ -213,7 +213,9 @@ class NewPost extends PureComponent {
                 }
             });
         } else {
-            navigateTo(this.props, 'NewPostWrite', { photo: selectedPhoto });
+            navigateTo(this.props, 'NewPostWrite', {
+                photo: selectedPhoto
+            });
         }
         // reset photo taken state
         this.setState({

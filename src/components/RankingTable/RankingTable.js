@@ -10,6 +10,7 @@ import {
     RegularText
 } from "../index";
 
+
 class RankingTable extends PureComponent {
     render() {
         const {
@@ -17,7 +18,7 @@ class RankingTable extends PureComponent {
             onPressRankingRow
         } = this.props;
         return (
-            <ScrollView style={ styles.container }>
+            <View style={ styles.container }>
                 <View style={ styles.header }>
                     <RegularText>
                         <Text style={ styles.title }>담아뒀다 꺼내보면 좋을, 다섯 권의 책</Text>
@@ -26,7 +27,7 @@ class RankingTable extends PureComponent {
                 <View style={ styles.body }>
                     { this._renderRow(rank.toJS(), onPressRankingRow) }
                 </View>
-            </ScrollView>
+            </View>
         );
     }
     _renderRow = (data, onPress) => {
@@ -54,12 +55,13 @@ const styles = StyleSheet.create({
         marginBottom: 7
     },
     title: {
-        fontSize: 15,
-        fontWeight: '700'
+        fontSize: 10,
+        color: '#474747',
+        fontWeight: '500'
     },
     body: {
         flexDirection: 'column'
     }
-})
+});
 
 export default RankingTable;

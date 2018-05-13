@@ -29,7 +29,7 @@ import EditPost from '../screens/EditPost/EditPost';
 import {Settings} from '../screens/Settings';
 import {SignupPage} from '../screens/SignupPage';
 import {SigninPage} from '../screens/SigninPage';
-import { Ranking } from "../screens/Ranking";
+import { Main } from "../screens/Main";
 import { BookmarkSelected } from '../screens/BookmarkSelected';
 import { Intro } from '../screens/Intro';
 
@@ -117,7 +117,7 @@ const TabsNavigatorOptions = {
 */
 export const CustomTabConfig = TabRouter({
     NewsFeed: {
-        screen: Ranking
+        screen: Main
     },
     MyPage: {
         screen: MyPage

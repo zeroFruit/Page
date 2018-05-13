@@ -6,7 +6,8 @@ import {
     StyleSheet
 } from 'react-native';
 import {
-    RegularText
+    RegularText,
+    InlineImage
 } from '../index';
 import styles from './styles';
 
@@ -36,7 +37,13 @@ const RankingRow = ({ rank, tit, athr, title, author, bmcnt, onPress = () => {} 
                         </View>
                         <View>
                             <RegularText>
-                                <Text style={ styles.bmcnt }>{ `${bmcnt}명이 담아둔 책` }</Text>
+                                <Text style={ styles.bmcnt }>
+                                    { `${bmcnt}명이 담아둔 책   ` }
+                                    <InlineImage
+                                        style={styles.nextbtn}
+                                        source={require('./image/next_icon_1.png')}
+                                    />
+                                </Text>
                             </RegularText>
                         </View>
                     </View>

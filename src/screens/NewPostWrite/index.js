@@ -14,7 +14,8 @@ import {
     ProgressBar,
     TextHeaderButton,
     RegularText,
-    KeyboardAwareScrollView
+    KeyboardAwareScrollView,
+    HeaderBackButton
 } from '../../components';
 import {
     routeHOC,
@@ -58,7 +59,7 @@ class NewPostWrite extends PureComponent {
             ),
             headerRight: (
                 <TextHeaderButton
-                    onClickLeftText={ throttle(params.onPressRight) }
+                    onClickLeftText={ params.onPressRight }
                     label={"다음"}
                 />
             ),

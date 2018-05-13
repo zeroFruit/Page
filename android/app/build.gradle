@@ -101,8 +101,8 @@ android {
         applicationId "com.zerofruit.page"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 9
-        versionName "0.0.5-alpha"
+        versionCode 11
+        versionName "0.0.7-alpha"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

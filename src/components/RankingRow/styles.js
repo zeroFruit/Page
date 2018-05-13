@@ -53,5 +53,9 @@ export default StyleSheet.create({
         fontSize: 11.3,
         color: '#474747',
         fontWeight: "900"
+    },
+    nextbtn: {
+        width: 6,
+        height: 9.6,
     }
 });

@@ -50,6 +50,8 @@ export * from './RankingRow';
 export * from './LightText';
 export * from './PostPageHeader';
 export * from './KeyboardAwareScrollView';
+export * from './RecentBookList';
+export * from './InlineImage';
 
 export {
     BookmarkBookGallery,

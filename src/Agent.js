@@ -2,8 +2,8 @@ import axios from 'axios';
 import qs from 'qs';
 import RNFetchBlob from 'react-native-fetch-blob';
 
-export const LOCAL_SERVER = __DEV__ ? 'https://288c3fec.ngrok.io' : 'https://page-rest.xyz';
-export const IMG_SERVER = __DEV__ ? 'https://47d543e5.ngrok.io' : 'https://page-asset.xyz';
+export const LOCAL_SERVER = __DEV__ ? 'https://384cf884.ngrok.io' : 'https://shrouded-inlet-74540.herokuapp.com/';
+export const IMG_SERVER = __DEV__ ? 'https://472850c4.ngrok.io' : 'https://page-asset.xyz';
 
 const getResponse = ({ data, status }) => ({ data, status });
 
