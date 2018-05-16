@@ -37,7 +37,8 @@ export const types = {
     _FETCH_BOOKS_FOR_USER: createType(['book', '_FETCH_BOOKS_FOR_USER']),
     _ADD_BOOK_INIT: createType(['book', '_ADD_BOOK_INIT']),
     _REMOVE_BOOK_INIT: createType(['book', '_REMOVE_BOOK_INIT']),
-    FETCH_RANK: createRequestTypes(['book', 'FETCH_RANK'])
+    FETCH_RANK: createRequestTypes(['book', 'FETCH_RANK']),
+    FETCH_RECENT_BOOKS: createRequestTypes(['books', 'FETCH_RECENT_BOOKS']),
 };
 
 export const initialState = {
@@ -63,6 +64,12 @@ export const initialState = {
         loading: false
     }),
     rank: Map({
+        success: false,
+        err: false,
+        loading: false,
+        payload: List()
+    }),
+    recentBooks: Map({
         success: false,
         err: false,
         loading: false,
@@ -317,7 +324,38 @@ const rank = {
                 .set('payload', List(action.payload))
         };
     },
-}
+};
+
+const fetchRecentBooks = {
+    [types.FETCH_RECENT_BOOKS.INIT] : (state, action) => {
+        return {
+            ...state,
+            recentBooks: state.recentBooks
+                .set('success', false)
+                .set('err', false)
+                .set('loading', false)
+        };
+    },
+    [types.FETCH_RECENT_BOOKS.READY] : (state, action) => {
+        return {
+            ...state,
+            recentBooks: state.recentBooks
+                .set('success', false)
+                .set('err', false)
+                .set('loading', true)
+        };
+    },
+    [types.FETCH_RECENT_BOOKS.SUCCESS] : (state, action) => {
+        return {
+            ...state,
+            recentBooks: state.recentBooks
+                .set('success', true)
+                .set('err', false)
+                .set('loading', false)
+                .set('payload', List(action.payload))
+        };
+    },
+};
 
 
 
@@ -335,8 +373,8 @@ export default book = createReducer(initialState, {
     ...add,
     ...rm,
     ...edit,
-    ...rank
-
+    ...rank,
+    ...fetchRecentBooks,
 });
 
 export const actions = {
@@ -351,7 +389,9 @@ export const actions = {
     InitEditBook: () => action(types.EDIT_BOOK.INIT),
     EditBook: ({ bid, author, title, content }) => action(types.EDIT_BOOK.REQUEST, { bid, author, title, content }),
     InitRank: () => action(types.FETCH_RANK.INIT),
-    Rank: () => action(types.FETCH_RANK.REQUEST)
+    Rank: () => action(types.FETCH_RANK.REQUEST),
+    FetchRecentBooks: () => action(types.FETCH_RECENT_BOOKS.REQUEST),
+    InitRecentBooks: () => action(types.FETCH_RECENT_BOOKS.INIT),
 };
 
 export const selectors = {
@@ -364,5 +404,6 @@ export const selectors = {
     GetRm: state => state.book.rm,
     GetEdit: state => state.book.edit,
     GetRank: state => state.book.rank,
-    GetAdd: state => state.book.add
+    GetAdd: state => state.book.add,
+    GetRecentBooks: state => state.book.recentBooks,
 };

@@ -65,16 +65,21 @@ class Main extends ScreenWithSearchBarHeader {
         });
     }
     async componentDidMount() {
-        await this.props.fetch();
+        await this.props.fetchRank();
+        await this.props.fetchRecentBooks();
     }
     async componentWillReceiveProps(np) {
-        if(np.fetchState.get('success')) {
-            await this.props.init();
+        if(np.rankState.get('success')) {
+            await this.props.initRank();
+        }
+        if (np.recentBooksState.get('success')) {
+            await this.props.initRecentBooks();
         }
     }
     render() {
         const {
-            fetchState
+            rankState,
+            recentBooksState,
         } = this.props;
         return (
             <View style={ styles.container }>
@@ -84,9 +89,12 @@ class Main extends ScreenWithSearchBarHeader {
                     showsVerticalScrollIndicator={false}
                     style={styles.body}
                 >
-                    <RecentBookList />
+                    <RecentBookList
+                        books={recentBooksState.get('payload')}
+                        onPress={this._onPressRecentPostBookBtn}
+                    />
                     <RankingTable
-                        rank={ fetchState.get('payload') }
+                        rank={rankState.get('payload')}
                         onPressRankingRow={ this._onPressRankingRow }
                     />
                 </ScrollView>
@@ -103,18 +111,31 @@ class Main extends ScreenWithSearchBarHeader {
             vm: new ViewManager(_v._getTextTitleProps)
         });
     }
+
+    _onPressRecentPostBookBtn = (tit, athr) => {
+        this.props.navigate('PostList', {
+            athrid: athr,
+            titid: tit,
+            fetchTagType: 'BY_TID',
+            fetchBooksType: 'BY_TID',
+            vm: new ViewManager(_v._getTextTitleProps)
+        });
+    }
     _onClickAddPost = () => {
         this.props.navigate('NewPost');
     }
 }
 
 const mapStateToProps = state => ({
-    fetchState: selectors.GetRank(state)
+    rankState: selectors.GetRank(state),
+    recentBooksState: selectors.GetRecentBooks(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    init: actions.InitRank,
-    fetch: actions.Rank
+    initRank: actions.InitRank,
+    initRecentBooks: actions.InitRecentBooks,
+    fetchRank: actions.Rank,
+    fetchRecentBooks: actions.FetchRecentBooks
 }, dispatch);
 
 export default connect(

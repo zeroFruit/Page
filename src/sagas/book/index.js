@@ -19,9 +19,14 @@ export function* AsyncRankBook(action) {
     yield call(re.rankBook, action.payload);
 }
 
+export function* AsyncFetchRecentPostBooks(action) {
+    yield call(re.fetchRecentPostBook, action.payload);
+}
+
 export default function* rootSaga() {
     yield takeLatest(types.ADD_BOOK.REQUEST, AsyncAddBook);
     yield takeLatest(types.REMOVE_BOOK.REQUEST, AsyncRmBook);
     yield takeLatest(types.EDIT_BOOK.REQUEST, AsyncEditBook);
     yield takeLatest(types.FETCH_RANK.REQUEST, AsyncRankBook);
+    yield takeLatest(types.FETCH_RECENT_BOOKS.REQUEST, AsyncFetchRecentPostBooks);
 }

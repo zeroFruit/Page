@@ -92,7 +92,7 @@ class Intro extends PureComponent {
         page: 0
     };
     async componentWillMount() {
-        await AsyncStorage.removeItem('accessToken');
+        // await AsyncStorage.removeItem('accessToken');
     }
     async componentDidMount() {
         const accessToken = await AsyncStorage.getItem('accessToken');

@@ -29,3 +29,9 @@ export function* fetchRankApi() {
     console.log('fetch rank status', status);
     return data;
 }
+
+export function* fetchRecentPostBooksApi() {
+    const { data, status } = yield call(agent.Book.__fetchRecentPostBooks);
+    console.log('fetch recent post books', data);
+    return data;
+}

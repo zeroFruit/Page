@@ -24,6 +24,11 @@ export const requestData = {
         ready: () => patch(types.FETCH_RANK.READY),
         success: books => patch(types.FETCH_RANK.SUCCESS, books),
         api: () => api.fetchRankApi()
+    },
+    fetchRecentPostBook: {
+        ready: () => patch(types.FETCH_RECENT_BOOKS.READY),
+        success: books => patch(types.FETCH_RECENT_BOOKS.SUCCESS, books),
+        api: () => api.fetchRecentPostBooksApi()
     }
 };
 
@@ -31,5 +36,6 @@ export const requestEntity = {
     addBook: fetchEntity.bind(null, requestData.addBook),
     rmBook: fetchEntity.bind(null, requestData.rmBook),
     editBook: fetchEntity.bind(null, requestData.editBook),
-    rankBook: fetchEntity.bind(null, requestData.rankBook)
+    rankBook: fetchEntity.bind(null, requestData.rankBook),
+    fetchRecentPostBook: fetchEntity.bind(null, requestData.fetchRecentPostBook),
 };

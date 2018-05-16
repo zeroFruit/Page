@@ -40,6 +40,11 @@ const recentBooks = [
 
 class RecentBookList extends PureComponent {
     render() {
+        const {
+            books,
+            onPress
+        } = this.props;
+        console.log(books);
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -51,20 +56,23 @@ class RecentBookList extends PureComponent {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     style={styles.body}>
-                    {this._renderItem(recentBooks)}
+                    {this._renderItem(books, onPress)}
                 </ScrollView>
             </View>
         );
     }
 
-    _renderItem = (data) => {
-        return data.map(({id, title}) => (
+    _renderItem = (item, onPress) => {
+        return item.map(({ athrid, titid, author, title }) => (
             <TagButton
                 containerStyle={styles.tagContainer}
                 textStyle={styles.tagText}
-                key={id}
+                key={`${athrid}__${titid}`}
                 title={title}
-                onPress={() => {}}
+                author={author}
+                titid={titid}
+                athrid={athrid}
+                onPress={() => onPress(titid, athrid)}
             />
         ));
     }
