@@ -67,5 +67,7 @@
 		<string>Zocial.ttf</string>
 		<string>NotoSansCJKkr-Medium.otf</string>
 	</array>
+	<key>CodePushDeploymentKey</key>
+	<string>deployment-key-here</string>
 </dict>
 </plist>

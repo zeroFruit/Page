@@ -1,5 +1,6 @@
 import 'regenerator-runtime/runtime';
 import React, { Component } from 'react';
+import codePush from 'react-native-code-push';
 import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -34,4 +35,4 @@ class App extends Component {
 
 console.disableYellowBox = true;
 
-export default App;
+export default codePush(App);

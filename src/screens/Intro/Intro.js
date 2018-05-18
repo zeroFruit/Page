@@ -26,21 +26,21 @@ const slides = [
     {
         key: '1',
         title: ' 책을 읽다 든 생각,\n' +
-        '페이지로 남기세요.',
+        'PAGE로 남기세요.',
         content: '기록한 생각은 사라지지 않아요.',
         lastPage: false,
     },
     {
         key: '2',
         title: '    다른 사람의\n' +
-        '페이지와 생각을\n' +
+        'PAGE와 생각을\n' +
         '    둘러보세요.',
         content: '좋은 책을 발견할 수 있어요.',
         lastPage: false,
     },
     {
         key: '3',
-        title: '좋은 페이지는\n  담아두세요.',
+        title: '좋은 PAGE는\n  담아두세요.',
         content: '그곳에서 새로운 생각이 시작될 거예요.',
         lastPage: true,
     }
