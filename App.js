@@ -1,7 +1,6 @@
 import 'regenerator-runtime/runtime';
 import React, { Component } from 'react';
 import codePush from 'react-native-code-push';
-import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -21,9 +20,6 @@ const store = configureStore({});
 sagaMiddleware.run(rootSaga);
 
 class App extends Component {
-    // async componentDidMount() {
-    //     SplashScreen.hide();
-    // }
     render() {
         return (
             <Provider store={ store }>

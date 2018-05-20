@@ -134,6 +134,8 @@ class PostSelected extends ScreenWithSearchBarHeader {
 
     _onClickMore = (book) => {
         const { my } = this.props;
+        console.log(book);
+        console.log(my.get('id'));
         if (book.user.id === my.get('id')) {
             this.props.navigate('EditPost', book);
         } else {

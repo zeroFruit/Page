@@ -58,7 +58,7 @@ class EditPost extends PureComponent {
             ),
             headerRight: (
                 <TextHeaderButton
-                    onClickLeftText={ throttle(params.onPressRight) }
+                    onClickLeftText={ params.onPressRight }
                     label={"완료"}
                 />
             ),

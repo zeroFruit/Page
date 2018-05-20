@@ -38,6 +38,7 @@ import {ModalContentOther} from '../components/ModalContentOther';
 
 import { hasPath } from '../utils/ObjectUtils';
 import history from '../history';
+import { tracker } from '../analytics';
 
 class RouterComponent extends PureComponent {
     render() {
@@ -80,7 +81,15 @@ class RouterComponent extends PureComponent {
 
         return (
             <View style={ { flex: 1 } }>
-                <RootNavigator />
+                <RootNavigator
+                    onNavigationStateChange={(prevState, currentState) => {
+                        const currentScreen = getCurrentRouteName(currentState);
+                        const prevScreen = getCurrentRouteName(prevState);
+                        if (prevScreen !== currentScreen) {
+                            tracker.trackScreenView(currentScreen);
+                        }
+                    }}
+                />
             </View>
         );
     }
@@ -192,45 +201,20 @@ export const replace = (navigation, routeName, params = {}) => {
     navigation.replace(routeName, params);
 };
 
-// export const resetToMyPage = (navigation) => {
-//     const resetAction = NavigationActions.reset({
-//         index: 0,
-//         key: null,
-//         actions: [
-//             NavigationActions.navigate({
-//                 routeName: 'main',
-//                 action: NavigationActions.navigate({
-//                     routeName: 'tabs'
-//                 })
-//             })
-//         ]
-//     });
-//     navigation.dispatch(resetAction);
-// }
-
-// export const getParamsFromNavigationState = (state) => {
-//     if (hasPath(state, 'index')) {
-//         const { index, routes } = state;
-//
-//         return getParamsFromNavigationState(routes[index]);
-//     } else {
-//         return hasPath(state, 'params') ? state.params : null;
-//     }
-// };
-
-// export const renderHeaderWithNavigation = (navigation) => {
-//     const params = getParamsFromNavigationState(navigation.state);
-//     return (renderHeaderMethod) => {
-//         return renderHeaderMethod(params);
-//     };
-// };
-
 export const setParamsToNavigation = (props, params) => {
     props.navigation.setParams({ ...params });
 };
 
-// export const initParamsToNavigation = (props) => {
-//     props.navigation.setParams({});
-// };
+function getCurrentRouteName(navigationState) {
+    if (!navigationState) {
+        return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    // dive into nested navigators
+    if (route.routes) {
+        return getCurrentRouteName(route);
+    }
+    return route.routeName;
+}
 
 

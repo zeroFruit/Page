@@ -55,6 +55,10 @@
 		FF039C0072914630B9ACD654 /* NotoSansCJKkr-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 204A8119EA7E479A9D6C3197 /* NotoSansCJKkr-Medium.otf */; };
 		C25A471A82174B3FBF6694B0 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6F332AD3B54F3F95B32A37 /* libCodePush.a */; };
 		8503105D2D014601B5E8EC19 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 037BB69961184D978526A887 /* libz.tbd */; };
+		7508611E4F224B1A8E8D8C10 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F79BA8FDC352434A9DD151E8 /* libRCTGoogleAnalyticsBridge.a */; };
+		9840C766AC044477B42D293A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFFF1D2656B4FA19F565E0C /* CoreData.framework */; };
+		7A91CF3A29CD4AF9B952AB65 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0D6B0C28A4E4D96BC422545 /* SystemConfiguration.framework */; };
+		88A495C6C8034C7798DFBE72 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B112F07A79CF48DCA8C59749 /* libsqlite3.0.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -328,6 +332,11 @@
 		E15039574B68486AAAA7580F /* CodePush.xcodeproj */ = {isa = PBXFileReference; name = "CodePush.xcodeproj"; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		6A6F332AD3B54F3F95B32A37 /* libCodePush.a */ = {isa = PBXFileReference; name = "libCodePush.a"; path = "libCodePush.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		037BB69961184D978526A887 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		750B22C7162A4C53AD58793A /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; name = "RCTGoogleAnalyticsBridge.xcodeproj"; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F79BA8FDC352434A9DD151E8 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; name = "libRCTGoogleAnalyticsBridge.a"; path = "libRCTGoogleAnalyticsBridge.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		EBFFF1D2656B4FA19F565E0C /* CoreData.framework */ = {isa = PBXFileReference; name = "CoreData.framework"; path = "System/Library/Frameworks/CoreData.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		A0D6B0C28A4E4D96BC422545 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		B112F07A79CF48DCA8C59749 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; name = "libsqlite3.0.tbd"; path = "usr/lib/libsqlite3.0.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -362,6 +371,10 @@
 				C2C2A4EF5A0F42DF9E4A0944 /* libSplashScreen.a in Frameworks */,
 				C25A471A82174B3FBF6694B0 /* libCodePush.a in Frameworks */,
 				8503105D2D014601B5E8EC19 /* libz.tbd in Frameworks */,
+				7508611E4F224B1A8E8D8C10 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
+				9840C766AC044477B42D293A /* CoreData.framework in Frameworks */,
+				7A91CF3A29CD4AF9B952AB65 /* SystemConfiguration.framework in Frameworks */,
+				88A495C6C8034C7798DFBE72 /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +516,9 @@
 			children = (
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				037BB69961184D978526A887 /* libz.tbd */,
+				EBFFF1D2656B4FA19F565E0C /* CoreData.framework */,
+				A0D6B0C28A4E4D96BC422545 /* SystemConfiguration.framework */,
+				B112F07A79CF48DCA8C59749 /* libsqlite3.0.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -545,6 +561,7 @@
 				63287904EB4D43BFA47234EF /* RNVectorIcons.xcodeproj */,
 				5A0A910F68BA45A5B91E42A4 /* SplashScreen.xcodeproj */,
 				E15039574B68486AAAA7580F /* CodePush.xcodeproj */,
+				750B22C7162A4C53AD58793A /* RCTGoogleAnalyticsBridge.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1155,6 +1172,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1163,6 +1181,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Debug;
@@ -1188,6 +1207,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1196,6 +1216,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Release;
@@ -1222,6 +1243,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Debug;
@@ -1247,6 +1269,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Release;
@@ -1281,6 +1304,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1289,6 +1313,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Debug;
@@ -1323,6 +1348,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1331,6 +1357,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
 					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-analytics-bridge\ios\RCTGoogleAnalyticsBridge/**",
 				);
 			};
 			name = Release;
@@ -1360,6 +1387,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1384,6 +1412,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

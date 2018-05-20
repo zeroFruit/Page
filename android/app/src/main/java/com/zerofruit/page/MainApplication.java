@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -35,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GoogleAnalyticsBridgePackage(),
             new CodePush("UZFvQ6hCtq5pJyVeUORpT8NzYLqc1403fbec-88e3-4b2d-9bc7-a2f2b3f680a4", getApplicationContext(), BuildConfig.DEBUG),
             new SplashScreenReactPackage(),
             new VectorIconsPackage(),

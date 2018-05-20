@@ -33,6 +33,18 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        // react-native-google-analytics-bridge
+        configurations.all {
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                def requested = details.requested
+                if (requested.group == 'com.google.android.gms') {
+                    details.useVersion '12.0.1'
+                }
+                if (requested.group == 'com.google.firebase') {
+                    details.useVersion '12.0.1'
+                }
+            }
+        }
     }
 }
 
@@ -51,3 +63,11 @@ subprojects { subproject ->
         }
     }
 }
+
+subprojects {
+    if(name.equals('react-native-google-analytics-bridge')) {
+        project.ext.'googlePlayServicesVersion' = '12.0.1'
+    }
+}
+
+
