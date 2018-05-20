@@ -85,7 +85,6 @@ class NewPostWrite extends PureComponent {
         if (np.addState.get('success')) {
             await np.pop(2);
             await np.init();
-            console.log('add success!');
         }
     }
 

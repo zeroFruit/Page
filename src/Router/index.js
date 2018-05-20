@@ -14,6 +14,9 @@ import {
 } from 'react-navigation';
 
 import { mapNavigateParamsToProps } from '../hocs/mapNavigateParamsToProps';
+import {
+    CustomTabView
+} from '../components';
 
 import Splash from '../screens/Splash/container';
 import { Bookmark } from '../screens/BookMark';
@@ -32,9 +35,6 @@ import {SigninPage} from '../screens/SigninPage';
 import { Main } from "../screens/Main";
 import { BookmarkSelected } from '../screens/BookmarkSelected';
 import { Intro } from '../screens/Intro';
-
-import TabBar from '../components/TabBar';
-import {ModalContentOther} from '../components/ModalContentOther';
 
 import { hasPath } from '../utils/ObjectUtils';
 import history from '../history';
@@ -148,30 +148,6 @@ export const CustomTabConfig = TabRouter({
     }
 }, TabsNavigatorOptions);
 
-const CustomTabView = ({ router, navigation }) => {
-    const { routes, index } = navigation.state;
-    const ActiveScreen = router.getComponentForState(navigation.state);
-    return (
-        <View style={ styles.container }>
-            <ActiveScreen
-                navigation={ addNavigationHelpers({
-                    ...navigation,
-                    state: routes[index]
-                }) } />
-            <TabBar navigation={ navigation } />
-        </View>
-
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: 'white'
-    }
-});
 const CustomTabNavigator = createNavigator(CustomTabConfig)(CustomTabView);
 
 /*
@@ -205,7 +181,7 @@ export const setParamsToNavigation = (props, params) => {
     props.navigation.setParams({ ...params });
 };
 
-function getCurrentRouteName(navigationState) {
+export const getCurrentRouteName = (navigationState) => {
     if (!navigationState) {
         return null;
     }
@@ -215,6 +191,18 @@ function getCurrentRouteName(navigationState) {
         return getCurrentRouteName(route);
     }
     return route.routeName;
+}
+
+export const getCurrentRouteParams = (navigationState) => {
+    if (!navigationState) {
+        return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    // dive into nested navigators
+    if (route.routes) {
+        return getCurrentRouteParams(route);
+    }
+    return route.params;
 }
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import styles from './styles';
 import {
@@ -10,6 +11,7 @@ import {
     OtherPageBookGallery,
     RegularText
 } from '../../components';
+import {selectors} from '../../ducks/screen';
 import {
     routeHOC,
     fetchUserByIdHOC
@@ -54,11 +56,14 @@ class OtherPage extends ScreenWithSearchBarHeader {
     componentDidMount() {
         const {
             navigation,
-            user
+            user,
+            prevScreen,
         } = this.props;
         setParamsToNavigation(this.props, {
             onClickSearchIcon: this._onClickSearchIcon,
-            onClickBack: () => navigation.pop(1),
+            onClickBack: () => navigation.navigate(
+                prevScreen.routeName,
+                prevScreen.params.toJS()),
             user
         });
     }
@@ -66,7 +71,6 @@ class OtherPage extends ScreenWithSearchBarHeader {
         const {
             user
         } = this.props;
-        console.log('user', user.get('user'));
         return (
             <View style={ styles.container }>
                 <View style={ styles.top }>
@@ -94,7 +98,13 @@ class OtherPage extends ScreenWithSearchBarHeader {
     }
 }
 
-export default compose(
+const mapStateToProps = state => ({
+    prevScreen: selectors.getPrev(state),
+});
+
+export default connect(
+    mapStateToProps
+)(compose(
     routeHOC,
     fetchUserByIdHOC
-)(OtherPage);
+)(OtherPage));

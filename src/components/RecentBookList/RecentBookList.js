@@ -11,32 +11,6 @@ import {
 } from '../index';
 import PropTypes from 'prop-types';
 
-const recentBooks = [
-    {
-        id: 1,
-        title: 'aaaaaaaaa'
-    },
-    {
-        id: 2,
-        title: 'bbbbbb'
-    },
-    {
-        id: 3,
-        title: 'ccc'
-    },
-    {
-        id: 4,
-        title: 'dddd'
-    },
-    {
-        id: 5,
-        title: 'eeeee'
-    },
-    {
-        id: 6,
-        title: 'fffffffff'
-    }
-]
 
 class RecentBookList extends PureComponent {
     render() {

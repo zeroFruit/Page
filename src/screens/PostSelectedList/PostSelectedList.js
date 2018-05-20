@@ -61,11 +61,14 @@ class PostSelectedList extends ScreenWithSearchBarHeader {
         const {
             navigation,
             requestBooksAndUsers,
+            prevScreen,
         } = this.props;
         setParamsToNavigation(this.props, {
             onClickAuthorTagOfHeader: this._onClickAuthorTagOfHeader,
             onClickSearchIcon: this._onClickSearchIcon,
-            onClickBack: () => navigation.goBack(),
+            onClickBack: () => navigation.navigate(
+                prevScreen.routeName,
+                prevScreen.params.toJS()),
         });
         await requestBooksAndUsers();
     }

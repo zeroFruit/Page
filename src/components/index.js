@@ -52,6 +52,7 @@ export * from './PostPageHeader';
 export * from './KeyboardAwareScrollView';
 export * from './RecentBookList';
 export * from './InlineImage';
+export * from './CustomTabView';
 
 export {
     BookmarkBookGallery,
